@@ -18,10 +18,10 @@ This is a simple weather app built using Ruby on Rails 7.1.5.1, which allows use
   * The app currently only supports U.S. Zip Codes for weather retrieval.
 
 ## How It Works:
-  1.	User Input: A user enters a valid U.S. Zip Code.
-  2.	Location Data: The app retrieves location details (latitude, longitude, etc.) based on the zip code via the ZIPcodeAPI.
-  3.	Weather Data: The app fetches current weather conditions and extended forecasts from OpenWeather using the retrieved location details.
-  4.	Display: The weather data is then displayed to the user in a readable format.
+  1. User Input: A user enters a valid U.S. Zip Code.
+  2. Location Data: The app retrieves location details (latitude, longitude, etc.) based on the zip code via the ZIPcodeAPI.
+  3. Weather Data: The app fetches current weather conditions and extended forecasts from OpenWeather using the retrieved location details.
+  4. Display: The weather data is then displayed to the user in a readable format.
 
 ## Potential Future Enhancements:
   * Support for additional international zip/postal codes.
@@ -30,11 +30,11 @@ This is a simple weather app built using Ruby on Rails 7.1.5.1, which allows use
 
 ## Installation
 To run the app locally:
-	1.	Clone the repository.
-	2.	Install the required dependencies.
-	3.	Set up API keys for ZIPcodeAPI and OpenWeather in the .env file.
-	4.	Run the Rails server: rails server
-	5.	Access the app at http://localhost:3000
+1. Clone the repository.
+2. Install the required dependencies.
+3. Set up API keys for ZIPcodeAPI and OpenWeather in the .env file.
+4. Run the Rails server: rails server
+5. Access the app at http://localhost:3000
 
 ## Running Tests
 To run tests:
