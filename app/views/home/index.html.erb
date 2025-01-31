@@ -1,0 +1,23 @@
+<h1>Welcome to the Weather App!</h1>
+
+<!-- Zip Code Entry -->
+<div id="weather_request">
+  <p> Enter a 5-digit U.S. Zip Code to view the forecast for that location:</p>
+  <%= form_with url: weather_request_path, method: :post, remote: true do |f| %>
+    <%= f.text_field :zip_code, :maxlength => 5, style: "width: 150px", placeholder: "Zip Code" %>
+    <%= f.submit "Get Forecast" %>
+  <% end %>
+  <div><i>Postal Code lookups are only available for the U.S.</i></div>
+</div>
+
+<!-- Weather Forecast Results -->
+<%= turbo_frame_tag "weather_info" do %>
+  <%= render partial: "home/weather_results",
+    locals: {
+      location_data: @location_data,
+      weather_data: @weather_data,
+      is_cached: @is_cached
+    } 
+  %>
+<% end %>
+

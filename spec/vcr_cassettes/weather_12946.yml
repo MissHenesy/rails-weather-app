@@ -1,0 +1,95 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.zipcodeapi.com/rest/ElpGrXu8Dbr5ADKeTWuPEN9V2MlW4VDvbz3Ctb4jBh1FqLOFPGs4vQCqspXVikEG/info.json/12946/degrees
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.12.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 31 Jan 2025 05:54:43 GMT
+      Server:
+      - Apache/2.4.62 (Amazon Linux) OpenSSL/3.0.8
+      Upgrade:
+      - h2,h2c
+      Connection:
+      - Upgrade
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '247'
+      Content-Type:
+      - application/json
+    body:
+      encoding: ASCII-8BIT
+      string: '{"zip_code":"12946","lat":44.206559,"lng":-74.046204,"city":"Lake Placid","state":"NY","timezone":{"timezone_identifier":"America\/New_York","timezone_abbr":"EST","utc_offset_sec":-18000,"is_dst":"F"},"acceptable_city_names":[],"area_codes":[518]}'
+  recorded_at: Fri, 31 Jan 2025 05:54:43 GMT
+- request:
+    method: get
+    uri: https://api.openweathermap.org/data/3.0/onecall?appid=0f889efe7c6cecea91e4e57c3cdd6768&exclude=minutely,hourly,alerts&lat=44.206559&lon=-74.046204
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.12.2
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Fri, 31 Jan 2025 05:54:43 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '4895'
+      Connection:
+      - keep-alive
+      X-Cache-Key:
+      - "/data/3.0/onecall?exclude=minutely%2Chourly%2Calerts&lat=44.21&lon=-74.05"
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST
+    body:
+      encoding: UTF-8
+      string: '{"lat":44.2066,"lon":-74.0462,"timezone":"America/New_York","timezone_offset":-18000,"current":{"dt":1738302883,"sunrise":1738325697,"sunset":1738361056,"temp":266.7,"feels_like":261.57,"pressure":1015,"humidity":86,"dew_point":264.97,"uvi":0,"clouds":98,"visibility":10000,"wind_speed":3.32,"wind_deg":197,"wind_gust":12.44,"weather":[{"id":804,"main":"Clouds","description":"overcast
+        clouds","icon":"04n"}]},"daily":[{"dt":1738342800,"sunrise":1738325697,"sunset":1738361056,"moonrise":1738330560,"moonset":1738371060,"moon_phase":0.08,"summary":"You
+        can expect partly cloudy in the morning, with snow in the afternoon","temp":{"day":273.38,"min":266.3,"max":273.76,"night":269.27,"eve":272.25,"morn":268.89},"feels_like":{"day":271.29,"night":266.73,"eve":270.49,"morn":264.82},"pressure":1010,"humidity":97,"dew_point":272.26,"wind_speed":3.34,"wind_deg":209,"wind_gust":13.53,"weather":[{"id":601,"main":"Snow","description":"snow","icon":"13d"}],"clouds":100,"pop":1,"snow":4.03,"uvi":0.83},{"dt":1738429200,"sunrise":1738412031,"sunset":1738447540,"moonrise":1738418220,"moonset":1738462140,"moon_phase":0.12,"summary":"Expect
+        a day of partly cloudy with snow","temp":{"day":257.73,"min":248.24,"max":268.6,"night":248.24,"eve":250.08,"morn":258.51},"feels_like":{"day":251.21,"night":248.24,"eve":250.08,"morn":253.51},"pressure":1026,"humidity":86,"dew_point":253.77,"wind_speed":3.04,"wind_deg":315,"wind_gust":5.5,"weather":[{"id":600,"main":"Snow","description":"light
+        snow","icon":"13d"}],"clouds":94,"pop":1,"snow":1.22,"uvi":1.79},{"dt":1738515600,"sunrise":1738498363,"sunset":1738534024,"moonrise":1738505820,"moonset":1738553160,"moon_phase":0.15,"summary":"Expect
+        a day of partly cloudy with snow","temp":{"day":264.81,"min":247.6,"max":264.81,"night":263.57,"eve":261.52,"morn":256.13},"feels_like":{"day":261.37,"night":259.2,"eve":256.24,"morn":256.13},"pressure":1029,"humidity":70,"dew_point":259.31,"wind_speed":2.58,"wind_deg":153,"wind_gust":5.18,"weather":[{"id":601,"main":"Snow","description":"snow","icon":"13d"}],"clouds":100,"pop":1,"snow":2.13,"uvi":0.96},{"dt":1738602000,"sunrise":1738584693,"sunset":1738620509,"moonrise":1738593480,"moonset":1738644300,"moon_phase":0.19,"summary":"Expect
+        a day of partly cloudy with snow","temp":{"day":274.69,"min":263.57,"max":274.69,"night":266.27,"eve":270.51,"morn":268.97},"feels_like":{"day":270.21,"night":259.27,"eve":263.51,"morn":264.87},"pressure":1007,"humidity":98,"dew_point":273.91,"wind_speed":7.76,"wind_deg":259,"wind_gust":20.97,"weather":[{"id":600,"main":"Snow","description":"light
+        snow","icon":"13d"}],"clouds":100,"pop":0.98,"snow":1.31,"uvi":0.26},{"dt":1738688400,"sunrise":1738671022,"sunset":1738706993,"moonrise":1738681320,"moonset":0,"moon_phase":0.23,"summary":"There
+        will be snow today","temp":{"day":264.03,"min":256.64,"max":264.68,"night":256.64,"eve":259.17,"morn":262.27},"feels_like":{"day":257.06,"night":256.64,"eve":255.29,"morn":255.83},"pressure":1021,"humidity":86,"dew_point":260.96,"wind_speed":4.7,"wind_deg":294,"wind_gust":11.59,"weather":[{"id":600,"main":"Snow","description":"light
+        snow","icon":"13d"}],"clouds":100,"pop":1,"snow":2.89,"uvi":1},{"dt":1738774800,"sunrise":1738757349,"sunset":1738793477,"moonrise":1738769400,"moonset":1738735440,"moon_phase":0.25,"summary":"There
+        will be snow until morning, then partly cloudy","temp":{"day":266.98,"min":252.2,"max":266.98,"night":264.02,"eve":260.92,"morn":252.2},"feels_like":{"day":266.98,"night":258.74,"eve":255.9,"morn":252.2},"pressure":1031,"humidity":74,"dew_point":262.27,"wind_speed":2.95,"wind_deg":158,"wind_gust":5.28,"weather":[{"id":600,"main":"Snow","description":"light
+        snow","icon":"13d"}],"clouds":70,"pop":0.2,"snow":0.12,"uvi":1},{"dt":1738861200,"sunrise":1738843674,"sunset":1738879962,"moonrise":1738857960,"moonset":1738826580,"moon_phase":0.3,"summary":"You
+        can expect rain with snow in the morning, with partly cloudy with rain in
+        the afternoon","temp":{"day":276.79,"min":265.59,"max":277.58,"night":274.07,"eve":276.3,"morn":269.31},"feels_like":{"day":272.81,"night":270.42,"eve":272.72,"morn":263.44},"pressure":1004,"humidity":100,"dew_point":276.2,"wind_speed":5.16,"wind_deg":239,"wind_gust":18.32,"weather":[{"id":616,"main":"Snow","description":"rain
+        and snow","icon":"13d"}],"clouds":100,"pop":1,"rain":10.74,"snow":9.36,"uvi":1},{"dt":1738947600,"sunrise":1738929998,"sunset":1738966446,"moonrise":1738947180,"moonset":1738917540,"moon_phase":0.33,"summary":"Expect
+        a day of partly cloudy with snow","temp":{"day":268.37,"min":262.07,"max":272.55,"night":262.22,"eve":262.07,"morn":267.9},"feels_like":{"day":263.6,"night":257.36,"eve":258.55,"morn":264.67},"pressure":1022,"humidity":79,"dew_point":264.47,"wind_speed":3.85,"wind_deg":268,"wind_gust":7.8,"weather":[{"id":600,"main":"Snow","description":"light
+        snow","icon":"13d"}],"clouds":99,"pop":0.99,"snow":1.23,"uvi":1}]}'
+  recorded_at: Fri, 31 Jan 2025 05:54:43 GMT
+recorded_with: VCR 6.3.1

@@ -1,0 +1,33 @@
+<div id="weather_results">
+  <% if location_data.present? && weather_data.present? %>
+    <h2 style="margin-bottom: -2px">
+      <%= "Weather Results for #{location_data[:city]}, 
+            #{location_data[:state]}  
+            #{location_data[:zip_code]}" %>
+    </h2>
+    <% if is_cached %>
+      <span style="color: #A020F0; font-style: italic;">
+        This data is cached ... check back in 30 minutes or so for updates
+      </span>
+    <% end %>
+  <% end %>
+
+
+  <% if weather_data.present? %>
+    <h2>Current Weather</h2>
+    <p><strong>Date:</strong> <%= weather_data[:current][:dt] %></p>
+    <p><strong>Temperature:</strong> <%= weather_data[:current][:temp] %> degrees Farenheit</p>
+    <p><strong>Conditions:</strong> <%= weather_data[:current][:conditions] %></p>
+    <p><%= image_tag weather_data[:current][:icon], alt: "image depicting weather forecast" %></p>
+    <hr />
+    <h2>Extended Forecast</h2>
+    <% weather_data[:forecast].each do |day| %>
+      <p><strong>Date:</strong> <%= day[:dt] %></p>
+      <p><strong>High:</strong> <%= day[:max_temp] %> degrees Farenheit</p>
+      <p><strong>Low:</strong> <%= day[:min_temp] %> degrees Farenheit</p>
+      <p><strong>Conditions:</strong> <%= day[:conditions] %></p>
+      <p><%= image_tag day[:icon], alt: "image depicting weather forecast" %></p>
+      <hr />
+    <% end %>
+  <% end %>
+</div>
