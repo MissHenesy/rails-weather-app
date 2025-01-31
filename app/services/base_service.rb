@@ -1,5 +1,12 @@
-# Our BaseService allows us to abstract frequently used methods.
-# Borrowed from:
+# The `BaseService` class abstracts common functionality for service objects, 
+# providing a foundation to standardize error handling, success/failure checks, 
+# and the execution flow. It ensures that every service object inherits core 
+# behavior such as managing results and errors.
+#
+# This pattern is useful for encapsulating business logic and making it easy 
+# to extend for specific use cases, such as API interactions or complex operations.
+#
+# Borrowed from: 
 # https://www.driftingruby.com/episodes/service-objects-for-api-interactions-with-twilio
 
 class BaseService
