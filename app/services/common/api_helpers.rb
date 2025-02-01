@@ -9,7 +9,7 @@ module Common
               service_instance.result
           else
               errors.add_multiple_errors(service_instance.errors)
-              nil
+              return nil
           end
       end
   end
