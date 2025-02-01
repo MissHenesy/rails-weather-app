@@ -4,11 +4,11 @@ class HomeController < ApplicationController
 
   def weather_request
     @is_cached = Utilities::AppUtils.is_cached?("weather_#{params[:zip_code]}")
-    
     svc_request = FetchLocationAndWeatherService.call(params[:zip_code])
+    
     @location_data = svc_request.result[:location]
     @weather_data = svc_request.result[:weather]
-    
+
     if @weather_data.present?
       respond_to do |format|
         format.html { redirect_to root_path, alert: 'Weather results cannot be dynamically displayed without enhanced browser features.' }
@@ -54,5 +54,12 @@ class HomeController < ApplicationController
         }
       end
     end
+  end
+
+  private
+
+  def weather_request_params
+    # Permit only the expected parameters
+    params.require(:zip_code).permit(:zip_code)
   end
 end

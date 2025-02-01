@@ -10,13 +10,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 # return unless Rails.env.test?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'vcr'
-
-VCR.configure do |config|
-  config.cassette_library_dir = 'spec/vcr_cassettes'  # Directory to save your VCR cassettes
-  config.hook_into :webmock  # Use webmock for stubbing HTTP requests
-  config.configure_rspec_metadata!  # This enables VCR for specific examples using `:vcr` metadata
-end
+require 'capybara/rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -53,6 +47,9 @@ RSpec.configure do |config|
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
+  
+  # Configure the JavaScript driver (add this line to set up selenium_chrome)
+  Capybara.javascript_driver = :selenium_chrome
 
   # RSpec Rails uses metadata to mix in different behaviours to your tests,
   # for example enabling you to call `get` and `post` in request specs. e.g.:

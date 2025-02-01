@@ -37,6 +37,9 @@ class FetchLocationAndWeatherService < BaseService
     end
 
     def cache_data(key, &block)
+        if Utilities::AppUtils.is_cached?(key)
+            Rails.logger.info "KEY IS CACHED: #{key}"
+        end
         # &block is a special Ruby syntax that converts the block passed to
         # this method into a Proc (a block of code that can be called later)
         Rails.cache.fetch(key, expires_in: CACHE_DURATION.minutes) do

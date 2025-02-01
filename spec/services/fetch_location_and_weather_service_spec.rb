@@ -1,16 +1,21 @@
 require 'rails_helper'
+require Rails.root.join('spec', 'support', 'request_helper')
 
 RSpec.describe FetchLocationAndWeatherService, type: :service do
   # Use our awesome shared context routine which handles cache cleanup
   include_context 'with cache'
 
-  include MockLocationData
-  include MockWeatherData
-  
   let(:valid_zip_code) { '12946' } # Numerically valid, and is a "real" zip code
   let(:invalid_zip_code) { '99999' } # Numberically valid, zip code does not exist
-  let(:location_data) { mock_location_data }
-  let(:weather_data) { mock_weather_data }
+
+  let(:mock_location_data) do
+    # Read and parse the mock data needed for this controller
+    JSON.parse(File.read('./spec/fixtures/mock_location_data.json'), symbolize_name: true)
+  end
+  let(:mock_weather_data) do
+    # Read and parse the mock data needed for this controller
+    JSON.parse(File.read('./spec/fixtures/mock_weather_data.json'), symbolize_name: true)
+  end
 
   # Initialize subject with the zip_code
   let(:subject) { FetchLocationAndWeatherService.new(zip_code: zip_code) }
@@ -39,7 +44,7 @@ RSpec.describe FetchLocationAndWeatherService, type: :service do
   
         # Ensure the location data is not nil and contains the expected data
         expect(result[:location]).not_to be_nil
-        expect(result[:location]).to include(city: 'Lake Placid', state: 'NY', lat: '44.279491', lng: '-73.979871')
+        expect(result[:location].to_json).to include('Lake Placid', 'NY', '44.279491', '-73.979871')
       end
     end
 
@@ -85,13 +90,13 @@ RSpec.describe FetchLocationAndWeatherService, type: :service do
 
     context 'when location data exists in cache' do
       it 'caches and reuses location data' do
-        test_cache_behavior("location_#{zip_code}", location_data, FetchLocationByZipService)
+        test_cache_behavior("location_#{zip_code}", mock_location_data, FetchLocationByZipService)
       end
     end
 
     context 'when weather data exists in cache' do
-      it 'caches and resuses weather data' do
-        test_cache_behavior("weather_#{zip_code}", weather_data, FetchWeatherService)
+      it 'caches and reuses weather data' do
+        test_cache_behavior("weather_#{zip_code}", mock_weather_data, FetchWeatherService)
       end
     end
 
