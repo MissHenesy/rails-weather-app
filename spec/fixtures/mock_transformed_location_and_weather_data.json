@@ -1,0 +1,75 @@
+{
+  "location": {
+    "lat": 44.206559,
+    "lng": -74.046204,
+    "city": "Lake Placid",
+    "state": "NY",
+    "zip_code": "12946"
+  },
+  "weather": {
+    "current": {
+      "dt": "Saturday, February 1, 2025",
+      "temp": 6,
+      "conditions": "overcast clouds",
+      "icon": "https://openweathermap.org/img/wn/04d@4x.png"
+    },
+    "forecast": [
+      {
+        "dt": "TODAY",
+        "min_temp": -16,
+        "max_temp": 21,
+        "conditions": "There will be snow until morning, then partly cloudy",
+        "icon": "https://openweathermap.org/img/wn/13d@4x.png"
+      },
+      {
+        "dt": "Sunday, February 2, 2025",
+        "min_temp": -15,
+        "max_temp": 17,
+        "conditions": "You can expect partly cloudy in the morning, with snow in the afternoon",
+        "icon": "https://openweathermap.org/img/wn/13d@4x.png"
+      },
+      {
+        "dt": "Monday, February 3, 2025",
+        "min_temp": 16,
+        "max_temp": 33,
+        "conditions": "Expect a day of partly cloudy with snow",
+        "icon": "https://openweathermap.org/img/wn/13d@4x.png"
+      },
+      {
+        "dt": "Tuesday, February 4, 2025",
+        "min_temp": -1,
+        "max_temp": 22,
+        "conditions": "There will be snow today",
+        "icon": "https://openweathermap.org/img/wn/13d@4x.png"
+      },
+      {
+        "dt": "Wednesday, February 5, 2025",
+        "min_temp": -9,
+        "max_temp": 14,
+        "conditions": "There will be snow until morning, then partly cloudy",
+        "icon": "https://openweathermap.org/img/wn/13d@4x.png"
+      },
+      {
+        "dt": "Thursday, February 6, 2025",
+        "min_temp": 10,
+        "max_temp": 28,
+        "conditions": "The day will start with partly cloudy through the late morning hours, transitioning to snow",
+        "icon": "https://openweathermap.org/img/wn/13d@4x.png"
+      },
+      {
+        "dt": "Friday, February 7, 2025",
+        "min_temp": 8,
+        "max_temp": 25,
+        "conditions": "There will be snow today",
+        "icon": "https://openweathermap.org/img/wn/13d@4x.png"
+      },
+      {
+        "dt": "Saturday, February 8, 2025",
+        "min_temp": -6,
+        "max_temp": 17,
+        "conditions": "There will be snow until morning, then partly cloudy",
+        "icon": "https://openweathermap.org/img/wn/13d@4x.png"
+      }
+    ]
+  }
+}

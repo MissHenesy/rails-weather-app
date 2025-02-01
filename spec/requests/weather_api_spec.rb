@@ -1,4 +1,4 @@
-require './spec/support/request_helper'
+require Rails.root.join('spec', 'support', 'request_helper')
 
 RSpec.describe 'openweathermap requests', type: :request do
   
@@ -13,13 +13,7 @@ RSpec.describe 'openweathermap requests', type: :request do
       api_response = JSON.parse(json_data)
       api_url = "#{base_api_url}?lat=#{latitude}&lon=#{longitude}"
 
-      stub_request(:get, api_url).
-        with(headers: {'Accept'=>'*/*', 'User-Agent'=>"Faraday v#{Faraday::VERSION}"}).
-        to_return(status: 200, body: api_response.to_json)
-      
-      uri = URI(api_url)
-      response = Faraday.get(uri)
-
+      response = create_stub(api_url, 200, api_response.to_json)
       expect(response.status.to_i).to eql(200)
       expect(response.body.to_json).to include('overcast clouds', 'snow', '269.26')
     end
@@ -27,13 +21,7 @@ RSpec.describe 'openweathermap requests', type: :request do
     it 'responds with "internal server error" 500 when the API is down' do
       api_url = "#{base_api_url}?lat=#{latitude}&lon=#{longitude}"
 
-      stub_request(:get, api_url).
-        with(headers: {'Accept'=>'*/*', 'User-Agent'=>"Faraday v#{Faraday::VERSION}"}).
-        to_return(status: 500, body: 'Internal Server Error. Ask Tech Admin for assistance.')
-      
-      uri = URI(api_url)
-      response = Faraday.get(uri)
-
+      response = create_stub(api_url, 500, 'Internal Server Error. Ask Tech Admin for assistance.')
       expect(response.status.to_i).to eql(500)
       expect(response.body).to include('Internal Server Error')
     end
