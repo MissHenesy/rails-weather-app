@@ -44,11 +44,10 @@ gem "bootsnap", require: false
 # Faraday gem for http requests/responses (alternative to HTTParty)
 gem "faraday", "~> 2.12"
 
-# Helpful for Unit tests
-gem 'vcr'
-
-# Helpful for unit tests
+# Helpful for Unit tests, particularly when testing external APIs
 gem 'webmock'
+
+gem 'rack'
 
 # Good for parsing/manipulating HTML, XML, and other markup languages
 gem 'nokogiri'
@@ -78,6 +77,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem 'rspec-rails'
+  gem 'rack-test'
   gem 'timecop'
 end
 

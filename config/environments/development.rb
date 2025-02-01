@@ -73,4 +73,8 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Clear hosts so we avoid the dreaded "Blocked Hosts" error when running 
+  # Unit Tests with our external APIs
+  config.hosts.clear
 end
