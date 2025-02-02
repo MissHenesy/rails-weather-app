@@ -88,6 +88,10 @@ RSpec.describe FetchLocationAndWeatherService, type: :service do
     # Use our awesome shared context routine which handles cache cleanup
     include_context 'with cache'
 
+    let(:cache_config) { YAML.load_file(Rails.root.join('config', 'cache_config.yml'))[Rails.env].symbolize_keys }
+    let(:cache_duration) { cache_config[:cache_location_duration] }
+    let(:cache_units) { cache_config[:cache_location_units] }
+
     let(:zip_code) { valid_zip_code }
     let(:cache_duration) { 30 } # minutes
     let(:mock_block) { double('block') } # use instead of actual api calls
@@ -113,18 +117,18 @@ RSpec.describe FetchLocationAndWeatherService, type: :service do
         allow(mock_block).to receive(:call).and_return(mocked_data)
   
         # First call will hit the API and cache the result
-        result = cache_data(cache_key, cache_duration) { mock_block.call }
+        result = cache_data(cache_key, cache_duration, cache_units) { mock_block.call }
         expect(is_cached?(cache_key)).to eq(true)
         expect(result).to eq(mocked_data)
         expect(mock_block).to have_received(:call).once
   
         # Now, freeze time to simulate cache expiry
-        Timecop.travel(Time.now + cache_duration.minutes + 1.second) do
+        Timecop.travel(Time.now + cache_duration.send(cache_units) + 1.second) do
           # Check if the cache has been cleared 
           expect(is_cached?(cache_key)).to eq(false)
           
           # Second call should fetch fresh data since the cache is expired
-          fresh_result = cache_data(cache_key, cache_duration) { mock_block.call }
+          fresh_result = cache_data(cache_key, cache_duration, cache_units) { mock_block.call }
           expect(fresh_result).to eq(mocked_data)
           expect(mock_block).to have_received(:call).twice
         end
@@ -151,7 +155,7 @@ RSpec.describe FetchLocationAndWeatherService, type: :service do
     
     # Test Cache Miss (Cache is Empty)
     # First call will hit the API and cache the result
-    result = cache_data(cache_key, cache_duration) { mock_block.call }
+    result = cache_data(cache_key, cache_duration, cache_units) { mock_block.call }
 
     # Assert the result is the expected response and that the API was called once
     expect(is_cached?(cache_key)).to eq(true)
@@ -160,7 +164,7 @@ RSpec.describe FetchLocationAndWeatherService, type: :service do
     expect(mock_block).to have_received(:call).once
 
     # Second call should use the cache and ignore the API
-    cached_result = cache_data(cache_key, cache_duration) { mock_block.call }
+    cached_result = cache_data(cache_key, cache_duration, cache_units) { mock_block.call }
 
     # Assert the result is the expected response and that the API
     # has still only been called once

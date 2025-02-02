@@ -3,9 +3,11 @@ class HomeController < ApplicationController
   end
 
   def weather_request
+    # Access cache info
     @is_cached = Utilities::AppUtils.is_cached?("weather_#{params[:zip_code]}")
+
+    # Call service and set location/weather instance vars
     svc_request = FetchLocationAndWeatherService.call(params[:zip_code])
-    
     @location_data = svc_request.result[:location]
     @weather_data = svc_request.result[:weather]
 

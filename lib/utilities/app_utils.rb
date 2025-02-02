@@ -9,11 +9,11 @@ module Utilities
       cached.present?
     end
 
-    def self.cache_data(key, duration, &block)
+    def self.cache_data(key, duration, units, &block)
       # &block is a special Ruby syntax that converts the block passed to
       # this method into a Proc (a block of code that can be called later)
       
-      Rails.cache.fetch(key, expires_in: duration.minutes) do
+      Rails.cache.fetch(key, expires_in: duration.send(units)) do
         # Rails.cache.fetch: checks the cache. If cache exists, returns
         # cached value. If cache does not exist, it runs the block of 
         # code, creates a cache, and returns the result.

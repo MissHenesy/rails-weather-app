@@ -12,7 +12,7 @@ RSpec.shared_context('with cache', :with_cache) do
     Utilities::AppUtils.is_cached?(key)
   end
 
-  def cache_data(key, duration, &block)
-    Utilities::AppUtils.cache_data(key, duration, &block)
+  def cache_data(key, duration, units, &block)
+    Utilities::AppUtils.cache_data(key, duration, units, &block)
   end
 end
