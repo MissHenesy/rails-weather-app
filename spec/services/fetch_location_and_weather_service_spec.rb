@@ -10,26 +10,26 @@ RSpec.describe FetchLocationAndWeatherService, type: :service do
 
   let(:mock_location_data) do
     # Read and parse the mock data needed for this controller
-    JSON.parse(File.read('./spec/fixtures/mock_location_data.json'), symbolize_name: true)
+    JSON.parse(File.read('./spec/fixtures/mock_location_data.json'), symbolize_names: true)
   end
   let(:mock_weather_data) do
     # Read and parse the mock data needed for this controller
-    JSON.parse(File.read('./spec/fixtures/mock_weather_data.json'), symbolize_name: true)
+    JSON.parse(File.read('./spec/fixtures/mock_weather_data.json'), symbolize_names: true)
   end
-
+  
   # Initialize subject with the zip_code
   let(:subject) { FetchLocationAndWeatherService.new(zip_code: zip_code) }
   
   # ----------------------------------------------
   # Service Tests
   # ----------------------------------------------
-  describe '#call' do
+  describe '#call' do 
     # ----------------------------------------------
     context 'when zip code is valid' do
       let(:zip_code) { valid_zip_code }
 
       before do
-        # Mock the services
+        # Mock the service
         mock_api_responses(location: mock_location_data, weather: mock_weather_data)
       end
 
@@ -62,10 +62,9 @@ RSpec.describe FetchLocationAndWeatherService, type: :service do
         expect(result[:weather]).to be_nil
       end
     end
-      # ----------------------------------------------
+    # ----------------------------------------------
     context 'when weather data is unavailable' do
       let (:zip_code) { valid_zip_code }
-      let (:service) { FetchLocationAndWeatherService.new(zip_code) }
       
       before do
         # Mock only the location data and return nil for weather
@@ -161,10 +160,6 @@ RSpec.describe FetchLocationAndWeatherService, type: :service do
     expect(result).to eq(mocked_data)
     # Our mock_block method should only have run once
     expect(mock_block).to have_received(:call).once
-
-    # READ THE CACHE!
-    puts "READING CACHE NOW"
-    puts Rails.cache.read(cache_key)
 
     # Second call should use the cache and ignore the API
     cached_result = cache_data(cache_key, cache_duration) { mock_block.call }

@@ -4,11 +4,15 @@ module Utilities
       # General String Helpers
       # ----------------------------------------------
       def self.strip_spaces_and_symbols(s)
-          s.gsub(/[^a-zA-Z0-9]/, '')
+        s.gsub(/[^a-zA-Z0-9]/, '')
       end
 
-      def self.trim_to_5_chars(value)
-          value.match(/\d{5}/) ? value.match(/\d{5}/)[0] : nil
+      def self.trim_to_5_chars(s)
+        s.match(/\d{5}/) ? s.match(/\d{5}/)[0] : nil
+      end
+
+      def self.trim_extra_spaces(s)
+        s.gsub(/\s+/, ' ')
       end
 
       # ----------------------------------------------

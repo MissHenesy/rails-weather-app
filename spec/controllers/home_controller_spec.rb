@@ -8,7 +8,7 @@ RSpec.describe HomeController, type: :controller do
 
   let(:mock_data) do
     # Read and parse the mock data needed for this controller
-    JSON.parse(File.read('./spec/fixtures/mock_location_and_weather_data.json'), symbolize_name: true)
+    JSON.parse(File.read('./spec/fixtures/mock_location_and_weather_data.json'), symbolize_names: true)
   end
   
   describe 'POST #weather_request' do
