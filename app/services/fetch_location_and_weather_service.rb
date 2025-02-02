@@ -1,6 +1,7 @@
 class FetchLocationAndWeatherService < BaseService
     include Common::ApiHelpers
     CACHE_DURATION = 30
+    CACHE_UTILS = Utilities::AppUtils
 
     def initialize(zip_code)
         @zip_code = zip_code
@@ -18,7 +19,7 @@ class FetchLocationAndWeatherService < BaseService
     def fetch_location_from_zip
         # Call our cache_data method and pass our cache_key
         # and expiration value.
-        cache_data("location_#{@zip_code}") do
+        CACHE_UTILS.cache_data("location_#{@zip_code}", CACHE_DURATION) do
             # This block of code will only run if the cache does not 
             # already have the data
             fetch_data_from_api(FetchLocationByZipService, @zip_code)
@@ -29,23 +30,10 @@ class FetchLocationAndWeatherService < BaseService
         return nil if location_data.nil?
 
         # Call our cache_data method and pass our cache_key
-        cache_data("weather_#{@zip_code}") do
+        CACHE_UTILS.cache_data("weather_#{@zip_code}", CACHE_DURATION) do
             # This block of code will only run if the cache does not 
             # already have the data
             fetch_data_from_api(FetchWeatherService, location_data)
-        end
-    end
-
-    def cache_data(key, &block)
-        if Utilities::AppUtils.is_cached?(key)
-            Rails.logger.info "KEY IS CACHED: #{key}"
-        end
-        # &block is a special Ruby syntax that converts the block passed to
-        # this method into a Proc (a block of code that can be called later)
-        Rails.cache.fetch(key, expires_in: CACHE_DURATION.minutes) do
-            # The block is called using 'block.call'. It runs when the 
-            # cache is NOT already populated with the key we have passed.
-            block.call
         end
     end
 end

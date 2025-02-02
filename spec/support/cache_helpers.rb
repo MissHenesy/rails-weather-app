@@ -7,4 +7,12 @@ RSpec.shared_context('with cache', :with_cache) do
     allow(Rails).to receive(:cache).and_return(memory_store)
     Rails.cache.clear
   end
+
+  def is_cached?(key)
+    Utilities::AppUtils.is_cached?(key)
+  end
+
+  def cache_data(key, duration, &block)
+    Utilities::AppUtils.cache_data(key, duration, &block)
+  end
 end
