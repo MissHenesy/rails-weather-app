@@ -5,13 +5,14 @@ module Utilities
     # ----------------------------------------------
     def self.is_cached?(key)
       cached = Rails.cache.read(key)
-      Rails.logger.info "Checking cache for key: #{key}: key cached?: #{!!cached}"
-      !!cached
+      Rails.logger.info "Checking cache for key: #{key}: key cached?: #{cached.present?}"
+      cached.present?
     end
 
     def self.cache_data(key, duration, &block)
       # &block is a special Ruby syntax that converts the block passed to
       # this method into a Proc (a block of code that can be called later)
+      
       Rails.cache.fetch(key, expires_in: duration.minutes) do
         # Rails.cache.fetch: checks the cache. If cache exists, returns
         # cached value. If cache does not exist, it runs the block of 

@@ -2,14 +2,21 @@ class FetchLocationAndWeatherService < BaseService
     include Common::ApiHelpers
     CACHE_DURATION = 30
     CACHE_UTILS = Utilities::AppUtils
+    VALIDATOR_UTILS = Utilities::ValidatorUtils
 
     def initialize(zip_code)
         @zip_code = zip_code
     end
 
     def call
-        location_data = fetch_location_from_zip
-        weather_data = fetch_weather(location_data)
+        location_data = nil
+        weather_data = nil
+        errors.add :validation, 'Invalid postal code input.' unless is_valid_zip?(@zip_code) 
+
+        if errors.empty?
+            location_data = fetch_location_from_zip
+            weather_data = fetch_weather(location_data)
+        end
 
         { location: location_data, weather: weather_data }
     end
@@ -35,5 +42,9 @@ class FetchLocationAndWeatherService < BaseService
             # already have the data
             fetch_data_from_api(FetchWeatherService, location_data)
         end
+    end
+
+    def is_valid_zip?(zip)
+        VALIDATOR_UTILS.is_valid_zip?(zip.to_s)
     end
 end

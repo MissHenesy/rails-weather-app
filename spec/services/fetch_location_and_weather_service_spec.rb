@@ -122,9 +122,7 @@ RSpec.describe FetchLocationAndWeatherService, type: :service do
         Timecop.travel(Time.now + cache_duration.minutes + 1.second) do
           # Check if the cache has been cleared 
           expect(is_cached?(cache_key)).to eq(false)
-          # cached_value = Rails.cache.read(cache_key)
-          # expect(cached_value).to be_nil
-
+          
           # Second call should fetch fresh data since the cache is expired
           fresh_result = cache_data(cache_key, cache_duration) { mock_block.call }
           expect(fresh_result).to eq(mocked_data)

@@ -17,19 +17,15 @@ RSpec.describe 'Openweather', type: :client do
   let(:client) { Clients::Openweather.new(latitude, longitude) }
 
   it 'transforms raw API response correctly' do
-    puts "this is the mock weather data"
-    puts mock_weather_data.to_json
-
-    puts "api response"
-    puts api_response
-
+    # Call "handle_response" and expect that raw api data will be transformed 
+    # into the data we display on our weather page
     result = client.send(:handle_response, api_response)
-    expected_result = mock_transformed_weather_data.deep_symbolize_keys
-    puts "RESULT IS:"
-    puts result
 
-    puts "EXPECTED RESULT IS:"
-    puts expected_result
+    # expected_result is our mock_transformed_weather file
+    expected_result = mock_transformed_weather_data.deep_symbolize_keys
+
+    # expect that the data transformed by the client matches our 
+    # mock_transformed_weather file
     expect(result).to eq(expected_result)
   end
 
