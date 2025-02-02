@@ -65,4 +65,8 @@ Rails.application.configure do
 
   # Set log level to debug so that debug messages show up in the test log
   config.log_level = :debug
+
+  # Enable cacheing
+  config.cache_store = :memory_store
+  config.action_controller.perform_caching = true
 end

@@ -1,3 +1,4 @@
+require 'rails_helper'
 require Rails.root.join('spec', 'support', 'request_helper')
 
 RSpec.describe 'zip_code_api requests', type: :request do
