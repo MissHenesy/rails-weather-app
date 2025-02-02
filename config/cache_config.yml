@@ -1,0 +1,27 @@
+development:
+  cache_location_duration: 30
+  cache_location_units: minutes
+
+  cache_duration: 30
+  cache_units: minutes
+
+production:
+  cache_location_duration: 30
+  cache_location_units: minutes
+
+  cache_duration: 30
+  cache_units: minutes
+
+staging:
+  cache_location_duration: 5
+  cache_location_units: minutes
+
+  cache_duration: 5
+  cache_units: minutes
+
+test:
+  cache_location_duration: 30
+  cache_location_units: minutes
+
+  cache_duration: 30
+  cache_units: minutes
