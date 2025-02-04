@@ -17,6 +17,7 @@ class FetchLocationAndWeatherService < BaseService
     def call
         location_data = nil
         weather_data = nil
+        
         errors.add :validation, 'Invalid postal code input.' unless is_valid_zip?(@zip_code) 
 
         if errors.empty?
@@ -35,7 +36,21 @@ class FetchLocationAndWeatherService < BaseService
         CACHE_UTILS.cache_data("location_#{@zip_code}", @cache_duration, @cache_units) do
             # This block of code will only run if the cache does not 
             # already have the data
-            fetch_data_from_api(FetchLocationByZipService, @zip_code)
+            result = fetch_data_from_api(FetchLocationByZipService, @zip_code)
+            
+            # Check for errors from the ZipCodeAPI and add to
+            # cache if present
+            if errors[:zip_code_api].present?
+                error_message = errors[:zip_code_api].join(', ')
+                
+                # Store structured data indicating an error state
+                Rails.logger.info "Error fetching location for #{@zip_code}: #{error_message}"
+                
+                { err_message: error_message }
+            else
+                # Successful result storage
+                result
+            end
         end
     end
 

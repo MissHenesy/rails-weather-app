@@ -27,21 +27,16 @@ module Clients
                 res = JSON.parse(response.body)
                 return { lat: res['lat'], lng: res['lng'], city: res['city'], state: res['state'], zip_code: res['zip_code'] }
            
-            elsif response.status == 404
-                # User input an invalid zip code and no location could be found.
-                # Show a more readable error message.
-                err_msg = "Could not find a location for the zip code you entered. Try another one!"
-                errors.add(:zip_code_api, err_msg)
-            
-            elsif response.status == 429
-                Rails.logger.info "Failed to fetch Location Data because of Too Many Requests: #{response.status}"
-                              
-                err_msg = "Too Many Requests (Request Limit Exceeded). Please try again later."
-                errors.add(:zip_code_api, err_msg)
-            
             else
-                err_msg = "Failed to fetch Location Data. "
-                err_msg += "Reason: #{response.reason_phrase}. Status Code: #{response.status}"
+                err_msg = case response.status
+                          when 404
+                            'Could not find a location for the zip code you entered. Try another one!'
+                          when 429
+                            Rails.logger.info "Failed to fetch Location Data because of Too Many Requests: #{response.status}"                   
+                            'Too Many Requests (Request Limit Exceeded). Please try again later.'
+                          else
+                             "Failed to fetch Location Data. Reason: #{response.reason_phrase}. Status Code: #{response.status}"
+                          end
 
                 errors.add(:zip_code_api, err_msg)
                 return nil
