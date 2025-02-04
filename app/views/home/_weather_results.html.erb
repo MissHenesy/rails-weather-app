@@ -13,7 +13,7 @@
   <% end %>
 
   <% if weather_data.present? %>
-    <h2>Current Weather</h2>
+   <h2>Current Weather</h2>
     <p><strong>Date:</strong> <%= weather_data[:current][:dt] %></p>
     <p><strong>Temperature:</strong> <%= weather_data[:current][:temp] %> degrees Farenheit</p>
     <p><strong>Conditions:</strong> <%= weather_data[:current][:conditions] %></p>

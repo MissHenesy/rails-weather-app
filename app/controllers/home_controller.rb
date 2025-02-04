@@ -1,64 +1,78 @@
 class HomeController < ApplicationController
+
   def index
+    # Extract and delete the weather data hash from session
+    weather_data = session.delete(:weather_data)&.deep_symbolize_keys
+
+    # Determine if we have retrieved weather_data in the session.
+    # If so, display it.
+    if weather_data
+      @is_cached = weather_data[:is_cached]
+      @location_data = weather_data[:location]
+      @weather_data = weather_data[:weather]
+      @error_messages = weather_data[:error_messages]
+    else
+      # Default to nil if no session data is found
+      @location_data = @weather_data = @is_cached = @error_messages = nil
+    end
   end
 
-  def weather_request
-    # Access cache info
-    @is_cached = Utilities::AppUtils.is_cached?("weather_#{params[:zip_code]}")
-
-    # Call service and set location/weather instance vars
-    svc_request = FetchLocationAndWeatherService.call(params[:zip_code])
-    @location_data = svc_request.result[:location]
-    @weather_data = svc_request.result[:weather]
-
-    if @weather_data.present?
-      respond_to do |format|
-        format.html { redirect_to root_path, alert: 'Weather results cannot be dynamically displayed without enhanced browser features.' }
-        format.turbo_stream {
-          render turbo_stream: [
-            # Display weather results
-            turbo_stream.update('weather_results',
-              partial: 'home/weather_results',
-              locals: { location_data: @location_data, weather_data: @weather_data , is_cached: @is_cached }
-            ),
-
-            # Clear out any error messages
-            turbo_stream.update('error_messages',
-              partial: 'layouts/error_messages',
-              locals: { error_messages: nil }
-            )
-          ]
-        }
-      end
+  def weather_request 
+    @zip_code = params[:zip_code]
+    cache_key = "weather_#{@zip_code}"
+    @is_cached = Utilities::AppUtils.is_cached?(cache_key)
+    svc_request = FetchLocationAndWeatherService.call(@zip_code)
+    
+    if svc_request.result[:weather].present? 
+      @location_data = svc_request.result[:location]
+      @weather_data = svc_request.result[:weather]
+      @error_messages = nil
     else
-      respond_to do |format|
-        # Use a generic error message if Turbo is disabled
-        format.html { redirect_to root_path, alert: 'Invalid location or weather data unavailable.' }
-      
-        # Otherwise, collect all error messages from svc_request.errors
-        if svc_request.errors&.any? 
-          error_messages = collect_error_messages(svc_request.errors)
-        else
-          error_messages = nil
-        end
-        
-        format.turbo_stream {
-          render turbo_stream: [
-              turbo_stream.update('weather_results',
-                partial: 'home/weather_results',
-                locals: { location_data: nil, weather_data: nil, is_cached: false }
-              ),
-              turbo_stream.update('error_messages',
-                partial: 'layouts/error_messages',
-                locals: { error_messages: error_messages }
-              )
-          ]
+      # When weather data is missing, check for location errors
+      location_err = find_location_error
+      @error_messages = location_err.present? ? [location_err] : collect_svc_errors(svc_request)
+    end
+
+    respond_to do |format|
+      format.html do
+        session[:weather_data] = {
+          is_cached: @is_cached,
+          location: @location_data, 
+          weather: @weather_data,
+          error_messages: @error_messages
         }
+        flash[:error_messages] = @error_messages if @error_messages.present?
+        redirect_to root_path
       end
+
+      format.turbo_stream {
+        render turbo_stream: [
+          turbo_stream.update('weather_results',
+            partial: 'home/weather_results',
+            locals: { location_data: @location_data, weather_data: @weather_data , is_cached: @is_cached } 
+          ),
+          turbo_stream.update('error_messages', 
+            partial: 'layouts/error_messages',
+            locals: { error_messages: @error_messages }
+          )
+        ]
+      }
     end
   end
 
   private
+
+  def find_location_error
+    location_key = "location_#{@zip_code}"
+    return nil unless Utilities::AppUtils.is_cached?(location_key)
+    
+    location_cache = Rails.cache.read(location_key)
+    location_cache[:err_message].present? ? location_cache[:err_message] : nil
+  end
+
+  def collect_svc_errors(svc_request)
+    svc_request.errors&.any? ? collect_error_messages(svc_request.errors) : []
+  end
 
   def weather_request_params
     # Permit only the expected parameters
