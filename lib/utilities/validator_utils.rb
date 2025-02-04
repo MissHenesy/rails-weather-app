@@ -20,6 +20,9 @@ module Utilities
         # Clean up user input before validating
         pc = STRING_UTILS.clean_for_us(postal_code)
         # Check that input is valid for U.S. postal codes
+        # This only checks that the value is a 5 digit
+        # numeric number. We will let our ZipCodeAPI determine
+        # if it can find a location.
         pc && pc.match(/^[0-9]{5}$/) ? true : false
     end
 
