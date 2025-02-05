@@ -34,8 +34,9 @@ class HomeController < ApplicationController
     end
 
     respond_to do |format|
-      flash[:error] = @error_messages.join('\n') if @error_messages.present?
-      
+     
+      flash[:error] = @error_messages if @error_messages.present?
+
       format.html do
         session[:weather_data] = {
           is_cached: @is_cached,
