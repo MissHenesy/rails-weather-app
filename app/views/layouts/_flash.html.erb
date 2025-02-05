@@ -1,5 +1,7 @@
-<% flash.each do |flash_type, message| %>
+<% flash.each do |type, message| %>
   <div class="flash_message">
-    <%= message %>
+    <%= content_tag(:div, message, class: "flash #{type}", 
+      data: { controller: "flash" }) %>
   </div>
 <% end %>
+<% flash.clear %>
