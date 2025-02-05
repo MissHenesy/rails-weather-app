@@ -34,6 +34,8 @@ class HomeController < ApplicationController
     end
 
     respond_to do |format|
+      flash[:error] = @error_messages.join('\n') if @error_messages.present?
+      
       format.html do
         session[:weather_data] = {
           is_cached: @is_cached,
@@ -41,7 +43,6 @@ class HomeController < ApplicationController
           weather: @weather_data,
           error_messages: @error_messages
         }
-        flash[:error_messages] = @error_messages if @error_messages.present?
         redirect_to root_path
       end
 
@@ -51,9 +52,9 @@ class HomeController < ApplicationController
             partial: 'home/weather_results',
             locals: { location_data: @location_data, weather_data: @weather_data , is_cached: @is_cached } 
           ),
-          turbo_stream.update('error_messages', 
-            partial: 'layouts/error_messages',
-            locals: { error_messages: @error_messages }
+          turbo_stream.update('flash', 
+            partial: 'layouts/flash',
+            locals: { messages: flash }
           )
         ]
       }

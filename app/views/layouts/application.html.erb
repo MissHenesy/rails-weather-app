@@ -11,9 +11,8 @@
   </head>
 
   <body>
-    <div class="flash">
+    <div id="flash" class="flash">
       <%= render "layouts/flash" %>
-      <%= render "layouts/error_messages", error_messages: flash[:error_msgs] %>
     </div>
     <%= yield %>
   </body>
